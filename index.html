@@ -1,77 +1,21 @@
-<!doctype html>
-<html lang="en" ng-app="iceCreamPizza">
-<head>
-  <meta charset="UTF-8">
-  <title>Slice and Cone</title>
-  <script src="lib/angular.js"></script>
-  <script src="app.js"></script>
-  <script src="controllers/PizzaController.js"></script>
-  <script src="controllers/IceCreamController.js"></script>
-  <script src="services/RestaurantFactory.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-</head>
+<!DOCTYPE html>
+<html ng-app="iceCreamPizza">
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script src="lib/angular.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+  </head>
 
-<body>
-  <div class="container">
-    <div ng-controller="PizzaCtrl">
-      <div class="row" ng-show="pizza.length">
-          <div class="col-md-12">
-          <h4>Search pizza</h4>
-          <form class="form-inline" role="form">
-            <div class="form-group">
-              <input ng-model="query" type="text" class="form-control" id="pizza-name" placeholder="Search">
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <h2 ng-show="pizza.length && filtered.length">Pizza Order</h2>
-          <h2 ng-show="pizza.length && !filtered.length">No Matches</h2>
-          <ul>
-            <li ng-repeat="item in filtered = (pizza | filter:query)">
-              <span ng-click="editing = true" ng-hide="editing">
-                {{item.name}} <a ng-click="RestaurantFactory.deletepizza(item)">Delete</a>
-              </span>
-              <span class="form-group" ng-show="editing" ng-submit="editing = false">
-                <form class="form-inline" role="form">
-                  <input type="text" class="form-control input-sm" ng-model="item.name" placeholder="Name" required/>
-                  <button class="btn btn-default btn-sm" type="submit">Save</button>
-                </form>
-              </span>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-6">
-          <h2>New pizza</h2>
-          <form ng-submit="RestaurantFactory.addpizza()" class="form-inline" role="form">
-            <div class="form-group">
-              <input type="text" ng-model="RestaurantFactory.pizzaName" class="form-control" id="pizza-name" placeholder="Enter type">
-            </div>
-            <br>
-            <button type="submit" class="btn btn-default">Submit</button>
-          </form>
-        </div>
-      </div>
-    </div>
-    <div class="row" ng-controller="IceCreamCtrl">
-      <div class="col-md-6" ng-show="pizzaWithoutIceCream.length">
-        <h3>Without Ice Cream Coupons</h3>
-        <ul>
-          <li ng-repeat="item in pizzaWithoutIceCream = (pizza | filter:{includePizza: false})">
-            {{item.name}} <a ng-click="addPizzaToOrder(item)"> - Free ice cream coupon? -</a>
-          </li>
-        </ul>
-      </div>
-      <div class="col-md-6" ng-show="pizzaWithIceCream.length">
-        <h3>Orders with pizza and ice cream</h3>
-        <ul>
-          <li ng-repeat="item in pizzaWithIceCream = (pizza | filter:{includePizza: true})">
-            {{item.name}}
-          </li>
-        </ul>
-      </div>
-    </div>
+<body class="container" ng-controller="RestaurantController as store">
+    <div class="product row" ng-repeat="product in store.products">
+
+      <h3>
+        {{product.name}}
+        <em class="pull-right">
+          {{product.description}}  {{product.price}}
+      <button ng-show="store.product.canPurchase">Add to Cart</button></em>
   </div>
+
+  <script type="text/javascript" src="lib/angular.js"></script>
+  <script type="text/javascript" src="app.js"></script>
 </body>
-</html>
