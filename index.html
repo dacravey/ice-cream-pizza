@@ -6,23 +6,51 @@
     <script type="text/javascript" src="app.js"></script>
   </head>
 
-  <body ng-controller="RestaurantController as store">
+  <body class="list-group" ng-controller="RestaurantController as store">
+    <header>
+      <h1 class="text-center">Slice Cream Cone</h1>
+      <h2 class="text-center"> The Non-Dairy Coney Island </h2>
+    </header>
     <!--  Products Container  -->
-    <div class="list-group">
-      <!--  Product Container  -->
       <div class="list-group-item" ng-repeat="product in store.products">
         <h3>
           {{product.name}}
           <em class="pull-right">
-            ({{product.description}}) {{product.price | currency }}
-        <button>Add to Cart</button>
+            ( {{product.price | currency }})
+            <button type="submit" class="btn btn-sm btn-primary">Add to Cart</button>
           </em></h3>
+          <section ng-show="product.images.length">
+            <img ng-src="{{product.images[0]}}" />
+            <!-- <ul class="list-inline thumbs"> -->
+              <!-- <li class="thumbnail" ng-repeat="image in product.images"> -->
+                <!-- <img ng-src="{{image}}" /> -->
+              <!-- </li> -->
+            </ul>
+          </section>
 
-          <!-- Image Gallery  -->
-          <div class="gallery">
-            <img ng-src="{{product.images[0]}}"/>
-          </div>
-        </div>
+          <section class="tab" ng-controller="TabController as tab">
+            <ul class="nav nav-pills">
+              <li ng-class="{ active:tab.isSet(1) }">
+                <a href ng-click="tab.setTab(1)">Description</a></li>
+              <li ng-class="{ active:tab.isSet(2) }">
+                <a href ng-click="tab.setTab(2)">Quantity</a></li>
+              <li ng-class="{ active:tab.isSet(3) }">
+                <a href ng-click="tab.setTab(3)">Reviews</a></li>
+            </ul>
+
+              <div class="tab" ng-show="tab.isSet(1)">
+                <h4>Description</h4>
+                <blockquote>{{product.description}}</blockquote>
+              </div>
+              <div class="tab" ng-show="tab.isSet(2)">
+                <h4>Quantity</h4>
+                <blockquote>{{product.quantity}} </blockquote>
+              </div>
+              <div class="tab" ng-show="tab.isSet(3)">
+                <h4>Reviews</h4>
+                <blockquote></blockquote>
+              </div>
+          </section>
 
       </div>
     </body>
